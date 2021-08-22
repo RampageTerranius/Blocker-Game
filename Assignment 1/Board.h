@@ -1,16 +1,23 @@
 #pragma once
 
+#include <iostream>
+
 // Board class.
 // Used to store data todo with the board.
 class Board
 {
 public:
+	// Constructors.
 	Board();
 	Board(int width, int height);
+
+	// Deconstructors.
 	~Board();
 
+	// Board functions.
 	void CreateBoard(int width, int height);
 	void DeleteBoard();
+	void PrintBoard();
 
 private:
 	bool active; // If the board has been assigned and is ready for use.
@@ -19,6 +26,8 @@ private:
 	// 0 = no user
 	//-1 = blue player
 	// 1 = red player
+
+	// board is a dynamically assigned array using board[column][row] for access (or [x][y])
 };
 
 // Default constructor.
@@ -46,28 +55,28 @@ void Board::CreateBoard(int width, int height)
 	if (!active)
 	{
 		// Prepare board to store dynamic 2d array.
-		// Create column objects.
-		board = new int* [width];
-
 		// Create row objects.
-		for (int i = 0; i < width; i++)
-			board[i] = new int[height];
+		board = new int* [height];
+
+		// Create column objects.
+		for (int i = 0; i < height; i++)
+			board[i] = new int[width];
 
 		// Assign default values to each cell.
-		for (int i = 0; i < width; i++)
-			for (int j = 0; j < height; j++)
-				board[i][j] = 0;
+		for (int i = 0; i < height; i++)
+			for (int n = 0; n < width; n++)
+				board[i][n] = 0;
 
 		// Set variables for cleaning up data in deconstructor.
-		curWidth = width;
 		curHeight = height;
+		curWidth = width;		
 
 		// Board is now active, set active to true.
 		active = true;
 	}
 }
 
-// Checks if board is active and completely deles all data for it.
+// Checks if board is active and completely deletes all data for it.
 void Board::DeleteBoard()
 {
 	if (active)
@@ -84,4 +93,34 @@ void Board::DeleteBoard()
 		// Set board to inactive.
 		active = false;
 	}
+}
+
+// Prints the current board onto the screen.
+void Board::PrintBoard()
+{
+	// Print number of each row
+	std::cout << " |";
+	for (int i = 0; i < curWidth; i++)
+		std::cout << i << " ";
+	std::cout << "\n";
+
+	// Print vertical line for looks.
+	std::cout << "=|";
+	for (int i = 0; i < curWidth; i++)
+		std::cout << "==";
+
+	std::cout << "\n";
+
+
+	// Print by Row -> Column.	
+	if (active)
+		for (int i = 0; i < curHeight; i++)
+		{
+			std::cout << i << "|";
+			// printing is reversed here as to show the board correctly.
+			for (int n = 0; n < curWidth; n++)
+				std::cout << board[n][i] << " ";
+			
+			std::cout << "\n";
+		}
 }
