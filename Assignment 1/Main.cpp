@@ -2,8 +2,6 @@
 
 int main(int argc, char* argv[])
 {
-	BlockerGame game;
-
 	// BlockerClass will handle all initialization.
 	game.Initialize();
 

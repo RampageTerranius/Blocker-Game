@@ -123,6 +123,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
