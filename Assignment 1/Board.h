@@ -99,18 +99,17 @@ void Board::DeleteBoard()
 void Board::PrintBoard()
 {
 	// Print number of each row
-	std::cout << " |";
+	std::cout << "  ";
 	for (int i = 0; i < curWidth; i++)
-		std::cout << i << " ";
+		std::cout << " " << i << "  ";
 	std::cout << "\n";
 
-	// Print vertical line for looks.
-	std::cout << "=|";
+	// Print top vertical line for looks.
+	std::cout << " -";
 	for (int i = 0; i < curWidth; i++)
-		std::cout << "==";
+		std::cout << "----";
 
 	std::cout << "\n";
-
 
 	// Print by Row -> Column.	
 	if (active)
@@ -119,8 +118,29 @@ void Board::PrintBoard()
 			std::cout << i << "|";
 			// printing is reversed here as to show the board correctly.
 			for (int n = 0; n < curWidth; n++)
-				std::cout << board[n][i] << " ";
+				// Print symbol depending on owned player.
+				switch (board[n][i])
+				{
+				case 0:
+					std::cout << "   " << "|";
+					break;
+				case -1:
+					std::cout << " B " << "|";
+					break;
+				case 1:
+					std::cout << " C " << "|";
+					break;
+				}				
 			
+			// Add space between each line
 			std::cout << "\n";
+
+			if (i < curHeight - 1)
+				std::cout << "\n";
 		}
+
+	// Print bottom vertical line for looks.
+	std::cout << " -";
+	for (int i = 0; i < curWidth; i++)
+		std::cout << "----";
 }
