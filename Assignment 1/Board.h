@@ -56,15 +56,15 @@ void Board::CreateBoard(int width, int height)
 	{
 		// Prepare board to store dynamic 2d array.
 		// Create row objects.
-		board = new int* [height];
+		board = new int* [width];
 
 		// Create column objects.
-		for (int i = 0; i < height; i++)
-			board[i] = new int[width];
+		for (int i = 0; i < width; i++)
+			board[i] = new int[height];
 
 		// Assign default values to each cell.
-		for (int i = 0; i < height; i++)
-			for (int n = 0; n < width; n++)
+		for (int i = 0; i < width; i++)
+			for (int n = 0; n < height; n++)
 				board[i][n] = 0;
 
 		// Set variables for cleaning up data in deconstructor.
