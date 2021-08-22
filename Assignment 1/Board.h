@@ -121,13 +121,13 @@ void Board::PrintBoard()
 				// Print symbol depending on owned player.
 				switch (board[n][i])
 				{
-				case 0:
+				case 0: // Empty
 					std::cout << "   " << "|";
 					break;
-				case -1:
+				case -1:// Blocker
 					std::cout << " B " << "|";
 					break;
-				case 1:
+				case 1: // Crosser
 					std::cout << " C " << "|";
 					break;
 				}				

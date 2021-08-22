@@ -1,7 +1,10 @@
 #pragma once
 
-#include "Board.h"
+#include <vector>
+
+#include "GameState.h"
 #include "Player.h"
+
 
 // Primary game class.
 // Stores all game related values.
@@ -11,41 +14,31 @@ public:
 	void Initialize();
 	void Cleanup();
 	void Run();
-	void GetPlayerInput();
 
 private:
-	Board* board;
-	bool running;
-	int currentPlayer;
-	Player players[2];
+	// Game state vector, top state is active state
+	std::vector<GameState*> state;
 };
 
 void BlockerGame::Initialize()
 {
-	board = new Board(9, 9);
-	running = true;
-	currentPlayer = 1;
+	state.push_back(new MainMenu());
 }
 
 // Clean up data.
 void BlockerGame::Cleanup()
 {
-	board->DeleteBoard();
-	delete board;
+	
 }
 
+// Runs
 void BlockerGame::Run()
 {
-	while (running)
-	{
-		board->PrintBoard();
-
-		GetPlayerInput();
-		running = !running;
-	}
-}
-
-void BlockerGame::GetPlayerInput()
-{
+	while (state.size() != 0)	
+		if (!state.back()->Run())
+		{
+			delete state.back();
+			state.pop_back();
+		}
 
 }
