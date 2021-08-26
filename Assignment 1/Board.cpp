@@ -6,6 +6,7 @@ Board::Board()
 	// Set some default values.
 	active = false;
 	curWidth = curHeight = 0;
+	selectedX = selectedY = 0;
 	board = nullptr;
 }
 
@@ -68,23 +69,43 @@ void Board::DeleteBoard()
 // Prints the current board onto the screen.
 void Board::PrintBoard()
 {
-	// Print number of each row
-	std::cout << "  ";
+	// If the board is not active we can not print it.
+	if (!active)
+		return;
+
+	// Print currently selected column.
+	std::cout << " ";
+	for (int i = 0; i < curWidth; i++)
+	{
+		std::cout << "   ";
+		if (selectedX == i)
+			std::cout << "v";
+		else
+			std::cout << " ";
+	}
+
+	// Print number of each row.
+	std::cout << "\n   ";
 	for (int i = 0; i < curWidth; i++)
 		std::cout << " " << i << "  ";
 	std::cout << "\n";
 
 	// Print top vertical line for looks.
-	std::cout << " -";
+	std::cout << "  -";
 	for (int i = 0; i < curWidth; i++)
 		std::cout << "----";
 
 	std::cout << "\n";
 
-	// Print by Row -> Column.	
-	if (active)
+	// Print by Row -> Column.		
 		for (int i = 0; i < curHeight; i++)
 		{
+			// Print either a space or arrow depending on if this is the selected column.
+			if (selectedY == i)
+				std::cout << ">";
+			else
+				std::cout << " ";
+
 			std::cout << i << "|";
 			// printing is reversed here as to show the board correctly.
 			for (int n = 0; n < curWidth; n++)
@@ -102,7 +123,7 @@ void Board::PrintBoard()
 					break;
 				}
 
-			// Add space between each line
+			// Add space between each line.
 			std::cout << "\n";
 
 			if (i < curHeight - 1)
@@ -110,7 +131,62 @@ void Board::PrintBoard()
 		}
 
 	// Print bottom vertical line for looks.
-	std::cout << " -";
+	std::cout << "  -";
 	for (int i = 0; i < curWidth; i++)
 		std::cout << "----";
+	std::cout << "\n";
+}
+
+void Board::MoveCursor(int xVal, int yVal)
+{
+	// Prepare some temporary values.
+	int tempX, tempY;
+	tempX = selectedX;
+	tempY = selectedY;
+
+	tempX += xVal;
+	tempY += yVal;
+
+	// Check if values would be within board bounds and apply them if they are.
+	if (tempX >= 0 && tempX < curWidth)
+		if (tempY >= 0 && tempY < curHeight)
+		{
+			selectedX = tempX;
+			selectedY = tempY;
+		}
+}
+
+// Checks for a win condition and returns winner.
+// Returns:
+// -1 for crosser win
+//  0 for no result
+//  1 for blocker win
+//  2 for draw
+int Board::CheckForWin()
+{
+	return 0;
+}
+
+// Checks if the given move is valid.
+// Returns true if valid, false if invalid.
+bool Board::CheckIfValidMove()
+{
+	// If cell is already occupied move is invalid.
+	if (board[selectedX][selectedY] != 0)
+		return false;
+
+	// Other wise, move is valid.
+	return true;
+}
+
+bool Board::AddMove(int player)
+{
+	// Check if move is valid, apply move and return true.
+	if (CheckIfValidMove())
+	{
+		board[selectedX][selectedY] = player;
+		return true;
+	}
+	// Failed to apply move, return false.
+	return false;
 }

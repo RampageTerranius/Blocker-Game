@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Board.h"
+#include "Player.h"
 
 #include <string>
 
@@ -19,12 +20,14 @@ public:
 	PlayingGame();
 	~PlayingGame();
 	bool Run();
-
 	void SwitchPlayer();
 
 private:
+	bool GetPlayerTurn();
 	Board* board;
 	int currentPlayer;
+	Player* player1;
+	Player* player2;
 };
 
 
