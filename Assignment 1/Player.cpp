@@ -4,8 +4,7 @@
 
 bool HumanPlayer::GetPlayerTurn(Board* board)
 {
-	// Print whos turn it is.
-
+	// Print board for first screen.
 	board->PrintBoard();
 
 	bool chosen = false;
@@ -21,31 +20,39 @@ bool HumanPlayer::GetPlayerTurn(Board* board)
 		std::cout << "wsad for movement, e to enter move into selected cell\n"
 			      << "press x at any time to quit\n";
 
-
-		int input = _getch();
 		// Get next pressed key from user and process it.
+		int input = _getch();		
 		switch (input)
 		{
-		case (int)'w':
+		// Move cursor up.
+		case (int)'w': 
 			board->MoveCursor(0, -1);
 			system("CLS");
 			board->PrintBoard();
 			break;
-		case (int)'s':
+
+		// Move cursor down.
+		case (int)'s': 
 			board->MoveCursor(0, 1);
 			system("CLS");
 			board->PrintBoard();
 			break;
+
+		// Move cursor left.
 		case (int)'a':
 			board->MoveCursor(-1, 0);
 			system("CLS");
 			board->PrintBoard();
 			break;
+
+		// Move cursor right.
 		case (int)'d':
 			board->MoveCursor(1, 0);
 			system("CLS");
 			board->PrintBoard();
 			break;
+
+		// Enter current cell as move.
 		case (int)'e':
 			if (board->AddMove(playerID))
 				return true;
@@ -53,6 +60,7 @@ bool HumanPlayer::GetPlayerTurn(Board* board)
 				std::cout << "Invalid move\n";
 			break;
 
+		// Quit from program.
 		case (int)'x':
 			return false;
 			break;
