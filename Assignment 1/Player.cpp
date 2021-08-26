@@ -57,7 +57,7 @@ bool HumanPlayer::GetPlayerTurn(Board* board)
 			if (board->AddMove(playerID))
 				return true;
 			else
-				std::cout << "Invalid move\n";
+				std::cout << "\nInvalid move!\n";
 			break;
 
 		// Quit from program.

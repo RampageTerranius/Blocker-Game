@@ -1,6 +1,14 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
+
+class Move
+{
+public:
+	Move(int newX, int newY) { x = newX; y = newY; };
+	int x, y;
+};
 
 // Board class.
 // Used to store data todo with the board.
@@ -22,15 +30,17 @@ public:
 	int CheckForWin(); // Returns -1 for crosser win, 1 for blocker win, 0 for no result and 2 for draw.
 	bool CheckIfValidMove();
 	bool AddMove(int player);
+	void ApplyMoves();
 		
 
 private:
 	bool active; // If the board has been assigned and is ready for use.
 	int curWidth, curHeight; // The current width and height of the board.
 	int selectedX, selectedY; // What cell on the board is currently selected, used checkifvalidmove,printboard and addmove
-	int** board;
+	int** board;	
 	// 0 = no user
 	//-1 = crosser
 	// 1 = blocker
 	// board is a dynamically assigned array using board[column][row] for access (or [x][y])
+	std::vector<Move> moves; // integers are ordered as follows: {x, y}
 };

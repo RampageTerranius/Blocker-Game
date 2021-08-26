@@ -179,14 +179,30 @@ bool Board::CheckIfValidMove()
 	return true;
 }
 
+// Add a move to the list of moves to process.
+// This list is processed by ApplyMoves.
+// Please note that ApplyMoves can only apply two moves at a time(front and back move).
 bool Board::AddMove(int player)
 {
-	// Check if move is valid, apply move and return true.
+	// Check if move is valid, push move and return true.
 	if (CheckIfValidMove())
 	{
-		board[selectedX][selectedY] = player;
+		moves.push_back({ selectedX, selectedY });		
 		return true;
 	}
-	// Failed to apply move, return false.
+	// Move was invalid, return false.
 	return false;
+}
+
+// Gets the two moves and applies them.
+void Board::ApplyMoves()
+{
+	// Apply crossers move first.
+	board[moves.front().x][moves.front().y] = -1;
+	// Apply blockers move last.
+	// This allows blocker to override crossers move if both chose same square.
+	board[moves.back().x][moves.back().y] = 1;
+
+	// clear the vector for next round.
+	moves.clear();
 }

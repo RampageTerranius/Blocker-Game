@@ -43,8 +43,12 @@ bool PlayingGame::Run()
 // Switch the current player.
 void PlayingGame::SwitchPlayer()
 {
+	// If the current player is blocker then apply both moves.
 	if (currentPlayer == 1)
+	{
+		board->ApplyMoves();
 		currentPlayer = -1;
+	}
 	else
 		currentPlayer = 1;
 }
