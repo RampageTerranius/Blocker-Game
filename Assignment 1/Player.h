@@ -21,10 +21,11 @@ public:
 	bool GetPlayerTurn(Board* board);
 };
 
-// AI controlled player, does not ask for input and automatically makes a move.
-class AIPlayer : public Player
+// AI controlled players, do not ask for input and automatically makes a move.
+
+class AIRandomPlayer : public Player
 {
 public:
-	AIPlayer(int id) { playerID = id; };
+	AIRandomPlayer(int id) { playerID = id; };
 	bool GetPlayerTurn(Board* board);
 };

@@ -181,7 +181,7 @@ int Board::CheckForWin()
 		if (rows.size() == 0)
 			break;
 
-		for (int n = 0; n < rows.size(); n++)
+		for (size_t n = 0; n < rows.size(); n++)
 		{
 			std::vector<int> tempRows;
 			if (board[currentColumn][rows[n]] == -1)

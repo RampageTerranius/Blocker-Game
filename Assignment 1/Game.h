@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GameState.h"
 #include "Player.h"
 
