@@ -175,12 +175,15 @@ int Board::CheckForWin()
 	for (int i = 0; i < curHeight; i++)
 		rows.push_back(i);
 
+	// Loop through every column.
+	// exit loop if we find no chained crosser segments.
 	for (int i = 0; i < curWidth - 1; i++)
 	{
 		// If there is nothing in the rows there is no data to work with, cancel loop here.
 		if (rows.size() == 0)
 			break;
 
+		// Check for chains to cells in next column.
 		for (size_t n = 0; n < rows.size(); n++)
 		{
 			std::vector<int> tempRows;
