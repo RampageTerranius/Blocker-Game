@@ -32,7 +32,7 @@ bool PlayingGame::Run()
 
 	// get the players move and switch to next player.
 	bool result;
-	result = GetPlayerTurn();	
+	result = GetPlayerTurn();
 
 	// Only apply user moves/check for win conditions once blocker has set his move.
 	if (currentPlayer == 1)

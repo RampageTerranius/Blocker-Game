@@ -18,17 +18,16 @@ class PlayingGame : public GameState
 public:
 	PlayingGame();
 	~PlayingGame();
-	bool Run();
-	void SwitchPlayer();
+	bool Run();	
 
 private:
+	void SwitchPlayer();
 	bool GetPlayerTurn();
 	Board* board;
-	int currentPlayer;
+	int currentPlayer; // -1 = crosser, 1 = blocker.
 	Player* player1;
 	Player* player2;
 };
-
 
 
 // State of being in the main menu.

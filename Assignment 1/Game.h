@@ -1,6 +1,5 @@
 #pragma once
 #include "GameState.h"
-#include "Player.h"
 
 #include <vector>
 
@@ -18,5 +17,6 @@ private:
 	// Game state vector, top state is active state
 	std::vector<GameState*> state;
 };
+
 
 extern BlockerGame game;

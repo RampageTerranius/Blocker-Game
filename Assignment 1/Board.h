@@ -2,12 +2,14 @@
 #include <iostream>
 #include <vector>
 
+// Basic class that holds a move, used by Board::ApplyMoves.
 class Move
 {
 public:
 	Move(int newX, int newY) { x = newX; y = newY; };
 	int x, y;
 };
+
 
 // Board class.
 // Used to store data todo with the board.

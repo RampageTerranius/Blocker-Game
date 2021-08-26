@@ -76,7 +76,7 @@ void Board::PrintBoard()
 	if (!active)
 		return;
 
-	// Print currently selected column.
+	// Print top arrow for currently selected column.
 	std::cout << " ";
 	for (int i = 0; i < curWidth; i++)
 	{
@@ -126,6 +126,10 @@ void Board::PrintBoard()
 					break;
 				}
 
+			// print arrow on right side for column if selected.
+			if (selectedY == i)
+				std::cout << "<";
+
 			// Add space between each line.
 			std::cout << "\n";
 
@@ -137,6 +141,18 @@ void Board::PrintBoard()
 	std::cout << "  -";
 	for (int i = 0; i < curWidth; i++)
 		std::cout << "----";
+	std::cout << "\n";
+
+	// Print top arrow for currently selected column.
+	std::cout << " ";
+	for (int i = 0; i < curWidth; i++)
+	{
+		std::cout << "   ";
+		if (selectedX == i)
+			std::cout << "^";
+		else
+			std::cout << " ";
+	}
 	std::cout << "\n";
 }
 
