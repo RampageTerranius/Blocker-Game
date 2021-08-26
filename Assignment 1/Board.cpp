@@ -1,5 +1,7 @@
 #include "Board.h"
 
+#include <algorithm>
+
 // Default constructor.
 Board::Board()
 {
@@ -16,6 +18,7 @@ Board::Board(int width, int height)
 	CreateBoard(width, height);
 }
 
+// Deconstructor
 Board::~Board()
 {
 	DeleteBoard();
@@ -115,11 +118,11 @@ void Board::PrintBoard()
 				case 0: // Empty
 					std::cout << "   " << "|";
 					break;
-				case -1:// Blocker
-					std::cout << " B " << "|";
-					break;
-				case 1: // Crosser
+				case -1:// Crosser
 					std::cout << " C " << "|";
+					break;
+				case 1: // Blocker
+					std::cout << " B " << "|";
 					break;
 				}
 
@@ -161,9 +164,75 @@ void Board::MoveCursor(int xVal, int yVal)
 // -1 for crosser win
 //  0 for no result
 //  1 for blocker win
-//  2 for draw
 int Board::CheckForWin()
 {
+	// Check for crosser win
+	std::vector<int> rows;	
+
+	int currentColumn = 0;
+
+	// Check all of first column for crosser pieces.
+	for (int i = 0; i < curHeight; i++)
+		rows.push_back(i);
+
+	for (int i = 0; i < curWidth - 1; i++)
+	{
+		// If there is nothing in the rows there is no data to work with, cancel loop here.
+		if (rows.size() == 0)
+			break;
+
+		for (int n = 0; n < rows.size(); n++)
+		{
+			std::vector<int> tempRows;
+			if (board[currentColumn][rows[n]] == -1)
+			{
+				// Check top right cell.
+				if (rows[n] > 0)
+					if (board[currentColumn + 1][rows[n] - 1] == -1)
+						tempRows.push_back(rows[n] - 1);
+
+				// Check right cell.
+				if (board[currentColumn + 1][rows[n]] == -1)
+					tempRows.push_back(rows[n]);
+
+				// Check bottom right cell.
+				if (rows[n] < curHeight)
+					if (board[currentColumn + 1][rows[n] + 1] == -1)
+						tempRows.push_back(rows[n] + 1);
+			}
+
+			// Check if we got any values, if we did, increase the currentColumn count
+			// Otherwise breka from the loop as we are at the end of the chain of crosser spaces.
+
+			if (tempRows.size() != 0)
+			{
+				currentColumn++;
+
+				std::sort(tempRows.begin(), tempRows.end());
+				tempRows.erase(std::unique(tempRows.begin(), tempRows.end()), tempRows.end());
+
+				rows = tempRows;
+			}
+		}
+	}
+
+	// If the final connected row we found is the same as the width, then we know the crosser won.
+	if (currentColumn == curWidth - 1)
+		return -1;
+
+
+	// Check for blocker win.
+	int blankSpacesLeft = 0;
+	for (int i = 0; i < curWidth; i++)
+		for (int n = 0; n < curHeight; n++)
+			if (board[i][n] == 0)
+				blankSpacesLeft++;
+
+	// There is no spaces left, blocker wins.
+	if (blankSpacesLeft == 0)
+		return 1;
+
+	// None of the above conditions have been met, no result.
 	return 0;
 }
 

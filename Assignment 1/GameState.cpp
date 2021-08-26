@@ -34,8 +34,38 @@ bool PlayingGame::Run()
 
 	// get the players move and switch to next player.
 	bool result;
-	result = GetPlayerTurn();
+	result = GetPlayerTurn();	
+
+	// Only apply user/check for win conditions moves once blocker has set his move.
+	if (currentPlayer == 1)
+	{
+		// Apply moves of players.
+		board->ApplyMoves();
+
+		// Check for any win conditon
+		switch (board->CheckForWin())
+		{
+		case -1:
+			board->PrintBoard();
+			std::cout << "Crosser wins!\n"
+				      << "Press any key to finish match\n";
+			_getch();
+			return false;
+			break;
+
+		case 1:
+			board->PrintBoard();
+			std::cout << "Blocker wins!\n"
+					  << "Press any key to finish match\n";
+			_getch();
+			return false;
+			break;
+		}
+	}
+
+	// Switch player after getting moves/applying moves and checking for win conditions.
 	SwitchPlayer();
+	
 
 	return result;
 }
@@ -44,11 +74,8 @@ bool PlayingGame::Run()
 void PlayingGame::SwitchPlayer()
 {
 	// If the current player is blocker then apply both moves.
-	if (currentPlayer == 1)
-	{
-		board->ApplyMoves();
+	if (currentPlayer == 1)		
 		currentPlayer = -1;
-	}
 	else
 		currentPlayer = 1;
 }
