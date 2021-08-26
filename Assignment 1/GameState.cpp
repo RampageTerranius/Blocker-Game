@@ -4,8 +4,6 @@
 
 #include <stdlib.h>
 
-
-
 // PlayingGame functions.
 // Constructor.
 PlayingGame::PlayingGame()
@@ -36,7 +34,7 @@ bool PlayingGame::Run()
 	bool result;
 	result = GetPlayerTurn();	
 
-	// Only apply user/check for win conditions moves once blocker has set his move.
+	// Only apply user moves/check for win conditions once blocker has set his move.
 	if (currentPlayer == 1)
 	{
 		// Apply moves of players.
@@ -46,18 +44,18 @@ bool PlayingGame::Run()
 		switch (board->CheckForWin())
 		{
 		case -1:
-			board->PrintBoard();
+			board->PrintBoard(); // print the final result of the board.
 			std::cout << "Crosser wins!\n"
 				      << "Press any key to finish match\n";
-			_getch();
+			_getch(); // wait for user to push a key before continuing.
 			return false;
 			break;
 
 		case 1:
-			board->PrintBoard();
+			board->PrintBoard(); // print the final result of the board.
 			std::cout << "Blocker wins!\n"
 					  << "Press any key to finish match\n";
-			_getch();
+			_getch(); // wait for user to push a key before continuing.
 			return false;
 			break;
 		}
@@ -94,11 +92,10 @@ bool PlayingGame::GetPlayerTurn()
 // Main loop when in MainMenu state.
 bool MainMenu::Run()
 {
-	// Clear console (incase comnig back to main menu) and print credits.
+	// Clear console (incase coming back to main menu) and print credits.
 	system("CLS");
 	std::cout << "Blocker Game\n"
 		      << "Created by Tyler Brown\n\n";
-
 
 	int result = 0;
 

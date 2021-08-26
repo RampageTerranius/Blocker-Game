@@ -1,5 +1,6 @@
 #include "Game.h"
 
+// Initialize the engine.
 void BlockerGame::Initialize()
 {
 	state.push_back(new MainMenu());
@@ -9,18 +10,11 @@ void BlockerGame::Initialize()
 // Upon the top state exiting (returning false) the state is deleted and popped from the vector
 void BlockerGame::Run()
 {
+	// Loop while there is at least one active state.
 	while (!state.empty())
-		if (!state.back()->Run())
-		{
+		if (!state.back()->Run())		
 			// If the state has ended (returned false) delete the object and pop it from the vector.
-			PopState();
-		}
-}
-
-// Clean up data.
-void BlockerGame::Cleanup()
-{
-
+			PopState();		
 }
 
 // Push the given state to the top (back) of the vector
@@ -37,4 +31,5 @@ void BlockerGame::PopState()
 	state.pop_back();
 }
 
+// External variable assignment, this will be used by gamestate class objects to push new states
 BlockerGame game = BlockerGame();

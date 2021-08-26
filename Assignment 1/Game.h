@@ -11,7 +11,6 @@ class BlockerGame
 {
 public:
 	void Initialize();
-	void Cleanup();
 	void Run();
 	void PushState(GameState* newState);
 	void PopState();
