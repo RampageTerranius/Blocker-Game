@@ -196,20 +196,15 @@ int Board::CheckForWin()
 
 	// Check all of first column for crosser pieces.
 	for (int i = 0; i < curHeight; i++)
-		rows.push_back(i);
+		if (board[0][i] == -1)
+			rows.push_back(i);
 
-	// Loop through every column.
-	// exit loop if we find no chained crosser segments.
-	for (int i = 0; i < curWidth - 1; i++)
+	while (rows.size() > 0 && currentColumn < 8)
 	{
-		// If there is nothing in the rows there is no data to work with, cancel loop here.
-		if (rows.size() == 0)
-			break;
-
+		std::vector<int> tempRows;
 		// Check for chains to cells in next column.
 		for (size_t n = 0; n < rows.size(); n++)
-		{
-			std::vector<int> tempRows;
+		{			
 			if (board[currentColumn][rows[n]] == -1)
 			{
 				// Check top right cell.
@@ -232,14 +227,14 @@ int Board::CheckForWin()
 
 			if (tempRows.size() != 0)
 			{
-				currentColumn++;
-
-				std::sort(tempRows.begin(), tempRows.end());
-				tempRows.erase(std::unique(tempRows.begin(), tempRows.end()), tempRows.end());
-
-				rows = tempRows;
-			}
+				//std::sort(tempRows.begin(), tempRows.end());
+				//tempRows.erase(std::unique(tempRows.begin(), tempRows.end()), tempRows.end());				
+			}			
 		}
+
+		if (tempRows.size() != 0)
+			currentColumn++;
+		rows = tempRows;
 	}
 
 	// If the final connected row we found is the same as the width, then we know the crosser won.
