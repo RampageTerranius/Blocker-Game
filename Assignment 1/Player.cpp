@@ -1,5 +1,6 @@
 #include "Player.h"
 
+#include <vector>
 #include <stdlib.h>
 
 bool HumanPlayer::GetPlayerTurn(Board* board)
@@ -54,7 +55,7 @@ bool HumanPlayer::GetPlayerTurn(Board* board)
 
 		// Enter current cell as move.
 		case (int)'e':
-			if (board->AddMove(playerID))
+			if (board->AddMove())
 				return true;
 			else
 				std::cout << "\nInvalid move!\n";
@@ -67,5 +68,19 @@ bool HumanPlayer::GetPlayerTurn(Board* board)
 		}
 	}
 
+	return true;
+}
+
+// Random ai turn, get a list of potential moves and randomly choose one
+bool AIRandomPlayer::GetPlayerTurn(Board* board)
+{
+	std::vector<Move> moves;
+
+	// Get a list of all valid moves the AI could make, then randomly choose one.
+	moves = board->GetAllValidMoves();
+	int randomMove = rand() % moves.size();
+	board->AddMove(moves[randomMove].x, moves[randomMove].y);
+
+	// Always return true, the ai has no possible way to choose to exit the game.
 	return true;
 }

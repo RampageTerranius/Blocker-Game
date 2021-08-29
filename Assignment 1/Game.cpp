@@ -1,8 +1,13 @@
 #include "Game.h"
 
+#include <cstdlib>
+
 // Initialize the engine.
 void BlockerGame::Initialize()
 {
+	// Setup rand for use by ai players.
+	srand(time(NULL));
+
 	state.push_back(new MainMenu());
 }
 

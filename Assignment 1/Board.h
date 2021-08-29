@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-// Basic class that holds a move, used by Board::ApplyMoves.
+// Basic class that holds a move, used by Board::ApplyMoves and AI players.
 class Move
 {
 public:
@@ -30,7 +30,10 @@ public:
 	void MoveCursor(int xVal, int yVal);
 	int CheckForWin(); // Returns -1 for crosser win, 1 for blocker win, 0 for no result and 2 for draw.
 	bool CheckIfValidMove();
-	bool AddMove(int player);
+	bool CheckIfValidMove(int x, int y);
+	std::vector<Move> GetAllValidMoves();
+	bool AddMove();
+	bool AddMove(int x, int y);
 	void ApplyMoves();
 		
 

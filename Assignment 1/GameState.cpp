@@ -11,8 +11,8 @@ PlayingGame::PlayingGame()
 	board = new Board(9, 9);
 	currentPlayer = -1;
 
-	player1 = new HumanPlayer(-1);
-	player2 = new HumanPlayer(1);
+	crosserPlayer = new HumanPlayer(-1);
+	blockerPlayer = new AIRandomPlayer(1);
 }
 
 // Deconstructor.
@@ -20,8 +20,8 @@ PlayingGame::~PlayingGame()
 {
 	board->DeleteBoard();
 	delete board;
-	delete player1;
-	delete player2;
+	delete crosserPlayer;
+	delete blockerPlayer;
 }
 
 // Main loop when in PlayingGame state.
@@ -83,9 +83,9 @@ void PlayingGame::SwitchPlayer()
 bool PlayingGame::GetPlayerTurn()
 {
 	if (currentPlayer == -1)
-		return player1->GetPlayerTurn(board);
+		return crosserPlayer->GetPlayerTurn(board);
 	else
-		return player2->GetPlayerTurn(board);
+		return blockerPlayer->GetPlayerTurn(board);
 }
 
 // MainMenu functions.

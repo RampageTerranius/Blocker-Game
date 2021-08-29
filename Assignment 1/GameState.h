@@ -25,8 +25,8 @@ private:
 	bool GetPlayerTurn();
 	Board* board;
 	int currentPlayer; // -1 = crosser, 1 = blocker.
-	Player* player1;
-	Player* player2;
+	Player* crosserPlayer;
+	Player* blockerPlayer;
 };
 
 

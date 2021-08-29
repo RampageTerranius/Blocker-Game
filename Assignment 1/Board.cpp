@@ -26,6 +26,13 @@ Board::~Board()
 
 void Board::CreateBoard(int width, int height)
 {
+	// Check width and height, they MUST be at least 3 wide and high.
+	if (width < 3)
+		width = 3;
+	if (height < 3)
+		height = 3;
+
+
 	if (!active)
 	{
 		// Prepare board to store dynamic 2d array.
@@ -255,7 +262,7 @@ int Board::CheckForWin()
 	return 0;
 }
 
-// Checks if the given move is valid.
+// Checks if the move at cursor is valid.
 // Returns true if valid, false if invalid.
 bool Board::CheckIfValidMove()
 {
@@ -267,15 +274,59 @@ bool Board::CheckIfValidMove()
 	return true;
 }
 
-// Add a move to the list of moves to process.
+// Checks if the given move is valid.
+// Returns true if valid, false if invalid.
+bool Board::CheckIfValidMove(int x, int y)
+{
+	// If cell is already occupied move is invalid.
+	if (board[x][y] != 0)
+		return false;
+
+	// Other wise, move is valid.
+	return true;
+}
+
+// Get a list of all valid (nothing current in cell) moves that can be done.
+std::vector<Move> Board::GetAllValidMoves()
+{
+	std::vector<Move> moves;
+
+	// Check the entire board for blank spots and return a list of them.
+	for (int i = 0; i < curWidth; i++)
+		for (int n = 0; n < curHeight; n++)
+			if (board[i][n] == 0)
+			{
+				Move currMove(i, n);
+				moves.push_back(currMove);
+			}
+
+	return moves;
+}
+
+// Add a move to the list of moves to process, this move is determined by current cursor location.
 // This list is processed by ApplyMoves.
 // Please note that ApplyMoves can only apply two moves at a time(front and back move).
-bool Board::AddMove(int player)
+bool Board::AddMove()
 {
 	// Check if move is valid, push move and return true.
 	if (CheckIfValidMove())
 	{
 		moves.push_back({ selectedX, selectedY });		
+		return true;
+	}
+	// Move was invalid, return false.
+	return false;
+}
+
+// Add a move to the list of moves to process.
+// This list is processed by ApplyMoves.
+// Please note that ApplyMoves can only apply two moves at a time(front and back move).
+bool Board::AddMove(int x, int y)
+{
+	// Check if move is valid, push move and return true.
+	if (CheckIfValidMove(x, y))
+	{
+		moves.push_back({ x, y });
 		return true;
 	}
 	// Move was invalid, return false.
