@@ -2,6 +2,7 @@
 #include "Board.h"
 
 #include <conio.h>
+
 // Player class, handles input etc...
 class Player
 {
@@ -24,7 +25,6 @@ public:
 
 
 // AI controlled players, do not ask for input and automatically makes a move.
-
 class AIRandomPlayer : public Player
 {
 public:

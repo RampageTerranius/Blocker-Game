@@ -197,16 +197,44 @@ int Board::CheckForWin()
 	// Check all of first column for crosser pieces.
 	for (int i = 0; i < curHeight; i++)
 		if (board[0][i] == -1)
-			rows.push_back(i);
+			rows.push_back(i);	
 
-	while (rows.size() > 0 && currentColumn < 8)
+	while (rows.size() > 0 && currentColumn < curWidth - 1)
 	{
+		// Check for above and below cells that are connected to this cell, add them to the list if they are connected.
+		// Check cells above current.		
+
+		for (size_t n = 0; n < rows.size(); n++)
+		{
+			for (int i = rows[n] - 1; i >= 0; i--)
+				if (board[currentColumn][i] == -1)
+				{
+				
+					if (std::find(rows.begin(), rows.end(), i) == rows.end())
+						rows.push_back(i);
+				}
+				else
+					break;
+
+			// Check cells below current.
+			for (int i = rows[n] + 1; i < curHeight; i++)
+				if (board[currentColumn][i] == -1)
+				{
+					if (std::find(rows.begin(), rows.end(), i) == rows.end())
+						rows.push_back(i);
+				}
+				else
+					break;
+		}
+
 		std::vector<int> tempRows;
 		// Check for chains to cells in next column.
 		for (size_t n = 0; n < rows.size(); n++)
 		{			
 			if (board[currentColumn][rows[n]] == -1)
 			{
+				
+
 				// Check top right cell.
 				if (rows[n] > 0)
 					if (board[currentColumn + 1][rows[n] - 1] == -1)
@@ -222,16 +250,15 @@ int Board::CheckForWin()
 						tempRows.push_back(rows[n] + 1);
 			}
 
-			// Check if we got any values, if we did, increase the currentColumn count
-			// Otherwise breka from the loop as we are at the end of the chain of crosser spaces.
-
+			// Remove any duplicate values.
 			if (tempRows.size() != 0)
 			{
-				//std::sort(tempRows.begin(), tempRows.end());
-				//tempRows.erase(std::unique(tempRows.begin(), tempRows.end()), tempRows.end());				
+				std::sort(tempRows.begin(), tempRows.end());
+				tempRows.erase(std::unique(tempRows.begin(), tempRows.end()), tempRows.end());				
 			}			
 		}
 
+		// Check if we got any values, if we did, increase the currentColumn count.
 		if (tempRows.size() != 0)
 			currentColumn++;
 		rows = tempRows;

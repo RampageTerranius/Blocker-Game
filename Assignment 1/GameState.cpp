@@ -11,7 +11,7 @@ PlayingGame::PlayingGame()
 	board = new Board(9, 9);
 	currentPlayer = -1;
 
-	crosserPlayer = new AIRandomPlayer(-1);
+	crosserPlayer = new HumanPlayer(-1);
 	blockerPlayer = new AIRandomPlayer(1);
 }
 
