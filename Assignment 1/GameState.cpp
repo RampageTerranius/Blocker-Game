@@ -6,9 +6,9 @@
 
 // PlayingGame functions.
 // Constructor.
-PlayingGame::PlayingGame(int player1Type, int player2Type)
+PlayingGame::PlayingGame(int player1Type, int player2Type, int width, int height)
 {
-	board = new Board(9, 9);
+	board = new Board(width, height);
 	currentPlayer = -1;
 
 	// Determien what kind of palyer to put into each slot
@@ -119,6 +119,8 @@ bool MainMenu::Run()
 	int selectedOption = 0;
 	int player1Type = 0;
 	int player2Type = 0;
+	int width = 9;
+	int height = 9;
 
 	// Continue to loop until user enters 0 for exit.
 	while (running)
@@ -132,14 +134,16 @@ bool MainMenu::Run()
 		std::cout << "==Main Menu==\n";
 
 		if (selectedOption == 0)
-			std::cout << ">Play\n";
+			std::cout << ">";
 		else
-			std::cout << " Play\n";
+			std::cout << " ";
+		std::cout << "Play\n";
 
-		if (selectedOption == 1)		
-			std::cout << ">Player 1: ";
+		if (selectedOption == 1)	
+			std::cout << ">";
 		else
-			std::cout << " Player 1: ";
+			std::cout << " ";
+		std::cout << "Player 1: ";
 
 		switch (player1Type)
 		{
@@ -152,9 +156,10 @@ bool MainMenu::Run()
 		}
 
 		if (selectedOption == 2)
-			std::cout << ">Player 2: ";
+			std::cout << ">";
 		else
-			std::cout << " Player 2: ";
+			std::cout << " ";
+		std::cout << "Player 2: ";
 
 		switch (player2Type)
 		{
@@ -167,9 +172,23 @@ bool MainMenu::Run()
 		}
 
 		if (selectedOption == 3)
-			std::cout << ">Exit\n";
+			std::cout << ">";
 		else
-			std::cout << " Exit\n";
+			std::cout << " ";
+		std::cout << "Board Width: " << width << "\n";
+
+		if (selectedOption == 4)
+			std::cout << ">";
+		else
+			std::cout << " ";
+		std::cout << "Board Height: " << height << "\n";
+
+
+		if (selectedOption == 5)
+			std::cout << ">";
+		else
+			std::cout << " ";
+		std::cout << "Exit\n";
 
 		// Get next pressed key from user and process it.
 		int input = _getch();
@@ -185,39 +204,63 @@ bool MainMenu::Run()
 			// Move cursor down.
 		case (int)'s':
 			selectedOption++;
-			if (selectedOption > 3)
-				selectedOption = 3;
+			if (selectedOption > 5)
+				selectedOption = 5;
 			break;
 
 			// Move cursor left.
 		case (int)'a':
-			if (selectedOption == 1)
-			{
+			switch (selectedOption)
+			{			
+			case 1:			
 				player1Type--;
 				if (player1Type < 0)
 					player1Type = 0;
-			}
-			if (selectedOption == 2)
-			{
+				break;
+			
+			case 2:			
 				player2Type--;
 				if (player2Type < 0)
 					player2Type = 0;
+				break;
+			case 3:
+				width--;
+				if (width < 3)
+					width = 3;
+				break;
+			case 4:
+				height--;
+				if (height < 3)
+					height = 3;
+			break;
 			}
 			break;
 
 			// Move cursor right.
 		case (int)'d':
-			if (selectedOption == 1)
+			switch (selectedOption)
 			{
+			case 1:
 				player1Type++;
 				if (player1Type > 1)
 					player1Type = 1;
-			}
-			if (selectedOption == 2)
-			{
+				break;
+
+			case 2:
 				player2Type++;
 				if (player2Type > 1)
 					player2Type = 1;
+				break;
+			case 3:
+				width++;
+				if (width > 20)
+					width = 20;
+				break;
+			case 4:
+				height++;
+				if (height > 20)
+					height = 20;
+				break;
 			}
 			break;
 
@@ -228,11 +271,11 @@ bool MainMenu::Run()
 			{
 			case 0:
 				std::cout << "\nStarting game...\n";
-				game.PushState(new PlayingGame(player1Type, player2Type));
+				game.PushState(new PlayingGame(player1Type, player2Type, width, height));
 				return true;
 				break;
 
-			case 3: // Exit program
+			case 5: // Exit program
 				std::cout << "\nExiting...\n"
 					<< "Thank you for playing!\n";
 
