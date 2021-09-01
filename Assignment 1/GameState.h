@@ -16,7 +16,7 @@ public:
 class PlayingGame : public GameState
 {
 public:
-	PlayingGame();
+	PlayingGame(int player1Type, int player2Type);
 	~PlayingGame();
 	bool Run();	
 

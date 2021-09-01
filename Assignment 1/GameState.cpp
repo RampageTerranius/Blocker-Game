@@ -6,13 +6,36 @@
 
 // PlayingGame functions.
 // Constructor.
-PlayingGame::PlayingGame()
+PlayingGame::PlayingGame(int player1Type, int player2Type)
 {
 	board = new Board(9, 9);
 	currentPlayer = -1;
 
-	crosserPlayer = new HumanPlayer(-1);
-	blockerPlayer = new AIRandomPlayer(1);
+	// Determien what kind of palyer to put into each slot
+	// Crosser player.
+	switch (player1Type)
+	{
+	case 0: // Human.
+		crosserPlayer = new HumanPlayer(-1);
+		break;
+
+	case 1: // AI - Random.
+		crosserPlayer = new AIRandomPlayer(-1);
+		break;
+
+	}
+
+	// Blocker player.
+	switch (player2Type)
+	{
+	case 0: // Human.
+		blockerPlayer = new HumanPlayer(1);
+		break;
+
+	case 1: // AI - Random.
+		blockerPlayer = new AIRandomPlayer(1);
+		break;
+	}
 }
 
 // Deconstructor.
@@ -92,53 +115,134 @@ bool PlayingGame::GetPlayerTurn()
 // Main loop when in MainMenu state.
 bool MainMenu::Run()
 {
-	// Clear console (incase coming back to main menu) and print credits.
-	system("CLS");
-	std::cout << "Blocker Game\n"
-		      << "Created by Tyler Brown\n\n";
-
-	int result = 0;
+	bool running = true;
+	int selectedOption = 0;
+	int player1Type = 0;
+	int player2Type = 0;
 
 	// Continue to loop until user enters 0 for exit.
-	do
+	while (running)
 	{
-		std::cout << "==Main Menu==\n"
-			<< "0 = Exit\n"
-			<< "1 = play\n"
-			<< "Please enter your choice: ";
+		// Clear console (incase coming back to main menu) and print credits.
+		system("CLS");
+		std::cout << "Blocker Game\n"
+			<< "Created by Tyler Brown\n\n";
 
-		// Attempt to convert input into a number and if fails return -1.
-		try
-		{
-			std::string str;
-			std::cin >> str;
+		// Print main menu.
+		std::cout << "==Main Menu==\n";
 
-			result = std::stoi(str);
-		}
-		catch (std::exception e)
-		{
-			result = -1;
-		}
+		if (selectedOption == 0)
+			std::cout << ">Play\n";
+		else
+			std::cout << " Play\n";
 
-		// Determine what to do from given input.
-		switch (result)
+		if (selectedOption == 1)		
+			std::cout << ">Player 1: ";
+		else
+			std::cout << " Player 1: ";
+
+		switch (player1Type)
 		{
-		case 0: // Exit program
-			std::cout << "\nExiting...\n"
-				<< "Thank you for playing!\n";
+		case 0:
+			std::cout << "Human\n";
 			break;
-
 		case 1:
-			std::cout << "\nStarting game...\n";
-			game.PushState(new PlayingGame());
-			return true;
-			break;
-
-		default: // no acceptable input given. 
-			std::cout << "\nInvalid input\n";
+			std::cout << "AI - Random\n";
 			break;
 		}
-	} while (result != 0);
+
+		if (selectedOption == 2)
+			std::cout << ">Player 2: ";
+		else
+			std::cout << " Player 2: ";
+
+		switch (player2Type)
+		{
+		case 0:
+			std::cout << "Human\n";
+			break;
+		case 1:
+			std::cout << "AI - Random\n";
+			break;
+		}
+
+		if (selectedOption == 3)
+			std::cout << ">Exit\n";
+		else
+			std::cout << " Exit\n";
+
+		// Get next pressed key from user and process it.
+		int input = _getch();
+		switch (input)
+		{
+			// Move cursor up.
+		case (int)'w':
+			selectedOption--;
+			if (selectedOption < 0)
+				selectedOption = 0;
+			break;
+
+			// Move cursor down.
+		case (int)'s':
+			selectedOption++;
+			if (selectedOption > 3)
+				selectedOption = 3;
+			break;
+
+			// Move cursor left.
+		case (int)'a':
+			if (selectedOption == 1)
+			{
+				player1Type--;
+				if (player1Type < 0)
+					player1Type = 0;
+			}
+			if (selectedOption == 2)
+			{
+				player2Type--;
+				if (player2Type < 0)
+					player2Type = 0;
+			}
+			break;
+
+			// Move cursor right.
+		case (int)'d':
+			if (selectedOption == 1)
+			{
+				player1Type++;
+				if (player1Type > 1)
+					player1Type = 1;
+			}
+			if (selectedOption == 2)
+			{
+				player2Type++;
+				if (player2Type > 1)
+					player2Type = 1;
+			}
+			break;
+
+			// Enter current cell as move.
+		case (int)'e':	
+			// Determine what to do from given input.
+			switch (selectedOption)
+			{
+			case 0:
+				std::cout << "\nStarting game...\n";
+				game.PushState(new PlayingGame(player1Type, player2Type));
+				return true;
+				break;
+
+			case 3: // Exit program
+				std::cout << "\nExiting...\n"
+					<< "Thank you for playing!\n";
+
+				running = false;
+				break;
+			}
+			break;
+		}		
+	}
+
 
 	return false;
 }
